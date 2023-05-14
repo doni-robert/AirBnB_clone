@@ -7,12 +7,19 @@ from datetime import datetime
 
 class BaseModel:
     """ Represents a BaseModel with common attributes for other classes"""
-    def __init__(self):
+    def __init__(self, *args, **kwargs):
         """ Initialize a new instance of BaseModel """
-        dat_format = "%Y-%m-%dT%H:%M:%S.%f"
-        self.id = str(uuid4())
-        self.created_at = datetime.today()
-        self.updated_at = datetime.today()
+        date_format = "%Y-%m-%dT%H:%M:%S.%f"
+        if len(kwargs) != 0:
+            for k, v in kwargs.items():
+                if k == "created_at" or k == "updated_at":
+                    self.__dict__[k] = datetime.strptime(v, date_format)
+                else:
+                    self.__dict__[k] = v
+        else:
+            self.id = str(uuid4())
+            self.created_at = datetime.today()
+            self.updated_at = datetime.today()
 
     def __str__(self):
         """ Prints a class representation of class name, id and dictionary """
