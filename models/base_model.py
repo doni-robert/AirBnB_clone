@@ -4,6 +4,7 @@
 from uuid import uuid4
 from datetime import datetime
 
+
 class BaseModel:
     """ Represents a BaseModel with common attributes for other classes"""
     def __init__(self):
@@ -14,8 +15,8 @@ class BaseModel:
 
     def __str__(self):
         """ Prints a class representation of class name, id and dictionary """
-        """ class_name = self.__class__.__name__"""
-        return "[{}] ({}) {}".format(self.__class__.__name__, self.id, self.__dict__)
+        return "[{}] ({}) {}".format(self.__class__.__name__,
+                                     self.id, self.__dict__)
 
     def save(self):
         """ Updates the public instance attribute 'updated_at' """
