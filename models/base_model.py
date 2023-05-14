@@ -9,7 +9,7 @@ class BaseModel:
     """ Represents a BaseModel with common attributes for other classes"""
     def __init__(self):
         """ Initialize a new instance of BaseModel """
-        date_format = %Y-%m-%dT%H:%M:%S.%f
+        dat_format = "%Y-%m-%dT%H:%M:%S.%f"
         self.id = str(uuid4())
         self.created_at = datetime.today()
         self.updated_at = datetime.today()
