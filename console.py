@@ -129,12 +129,13 @@ class HBNBCommand(cmd.Cmd):
 
         if key not in objs:
             print("** no instance found **")
-
+            return
         if len(line) < 3:
             print("** attribute name missing **")
-
+            return
         if len(line) < 4:
             print("** value missing **")
+            return
 
         value = objs[key]
         try:
