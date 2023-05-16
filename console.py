@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 """ Defines the HBNB console """
 import cmd
+import re
 from shlex import split
 from models import storage
 from models.base_model import BaseModel
@@ -10,6 +11,7 @@ from models.place import Place
 from models.amenity import Amenity
 from models.review import Review
 from models.user import User
+from models.engine.file_storage import FileStorage
 
 
 class HBNBCommand(cmd.Cmd):
@@ -154,10 +156,13 @@ class HBNBCommand(cmd.Cmd):
         """ Default behavior for invalid input"""
         kwargs = {
             "all": self.do_all,
+<<<<<<< HEAD
             "show": self.do_show,
             "destroy": self.do_destroy,
             "count": self.do_count,
             "update": self.do_update
+=======
+>>>>>>> cda6bb25bd18bc0a4f5aea686e86f1efadf3dc00
         }
         match = re.search(r"\.", arg)
         if match:
@@ -171,5 +176,10 @@ class HBNBCommand(cmd.Cmd):
 
         print("*** Unknown syntax: {}".format(arg))
         return False
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> cda6bb25bd18bc0a4f5aea686e86f1efadf3dc00
 if __name__ == "__main__":
     HBNBCommand().cmdloop()
