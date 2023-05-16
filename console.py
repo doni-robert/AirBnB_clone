@@ -4,6 +4,11 @@ import cmd
 from shlex import split
 from models import storage
 from models.base_model import BaseModel
+from models.state import State
+from models.city import City
+from models.place import Place
+from models.amenity import Amenity
+from models.review import Review
 from models.user import User
 
 
@@ -145,6 +150,26 @@ class HBNBCommand(cmd.Cmd):
             value.__dict__[line[2]] = line[3]
             value.save()
 
+    def default(self, arg):
+        """ Default behavior for invalid input"""
+        kwargs = {
+            "all": self.do_all,
+            "show": self.do_show,
+            "destroy": self.do_destroy,
+            "count": self.do_count,
+            "update": self.do_update
+        }
+        match = re.search(r"\.", arg)
+        if match:
+            args = [arg[:match.span()[0]], arg[match.span()[1]:]]
+            match = re.search(r"\((.*?)\)", args[1])
+            if match:
+                command = [args[1][:match.span()[0]], match.group()[1:-1]]
+                if command[0] in kwargs.keys():
+                    method = "{} {}".format(args[0], command[1])
+                    return kwargs[command[0]](method)
 
+        print("*** Unknown syntax: {}".format(arg))
+        return False
 if __name__ == "__main__":
     HBNBCommand().cmdloop()
