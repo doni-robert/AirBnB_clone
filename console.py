@@ -4,6 +4,7 @@ import cmd
 from shlex import split
 from models import storage
 from models.base_model import BaseModel
+from models.user import User
 
 
 class HBNBCommand(cmd.Cmd):
@@ -129,12 +130,13 @@ class HBNBCommand(cmd.Cmd):
 
         if key not in objs:
             print("** no instance found **")
-
+            return
         if len(line) < 3:
             print("** attribute name missing **")
-
+            return
         if len(line) < 4:
             print("** value missing **")
+            return
 
         value = objs[key]
         try:
