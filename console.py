@@ -1,10 +1,12 @@
 #!/usr/bin/python3
 """ Defines the HBNB console """
 import cmd
+import re
 from shlex import split
 from models import storage
 from models.base_model import BaseModel
 from models.user import User
+from models.engine.file_storage import FileStorage
 
 
 class HBNBCommand(cmd.Cmd):
@@ -144,6 +146,24 @@ class HBNBCommand(cmd.Cmd):
         except Exception:
             value.__dict__[line[2]] = line[3]
             value.save()
+
+    def default(self, arg):
+        """ Default behavior for invalid input"""
+        kwargs = {
+            "all": self.do_all,
+        }
+        match = re.search(r"\.", arg)
+        if match:
+            args = [arg[:match.span()[0]], arg[match.span()[1]:]]
+            match = re.search(r"\((.*?)\)", args[1])
+            if match:
+                command = [args[1][:match.span()[0]], match.group()[1:-1]]
+                if command[0] in kwargs.keys():
+                    method = "{} {}".format(args[0], command[1])
+                    return kwargs[command[0]](method)
+
+        print("*** Unknown syntax: {}".format(arg))
+        return False
 
 
 if __name__ == "__main__":
