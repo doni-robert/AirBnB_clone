@@ -97,11 +97,12 @@ class HBNBCommand(cmd.Cmd):
         if len(lines) < 2:
             print("** instance id missing **")
             return
-        objs = storage.all()
+        key = "{}.{}".format(class_name, instance_id) 
+        objs = model.storage.all()
         key = lines[0] + '.' + lines[1]
         if key in objs:
             del objs[key]
-            storage.save()
+            models.storage.save()
         else:
             print("** no instance found **")
 
@@ -127,17 +128,17 @@ class HBNBCommand(cmd.Cmd):
         Retrieve the number of instances of a class.
         """
         if not arg:
-        print("** class name missing **")
-        return
-    class_name = arg.split()[0]
-        if class_name not in self.valid_classes:
-        print("** class doesn't exist **")
-        return
-    count = 0
-    objects = models.storage.all()
-    for obj in objects.values():
-        if obj.__class__.__name__ == class_name:
-            count += 1
+            print("** class name missing **")
+            return
+        class_name = arg.split()[0]
+        if class_name not in self.__classes:
+            print("** class doesn't exist **")
+            return
+        count = 0
+        objects = models.storage.all()
+        for obj in objects.values():
+            if obj.__class__.__name__ == class_name:
+                count += 1
     print(count)
 
 
