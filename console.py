@@ -170,7 +170,15 @@ class HBNBCommand(cmd.Cmd):
             print("** value missing **")
             return
 
-        value = objs[key]
+            attribute_name
+            value = objs[key]
+            obj = line line[2]
+            value = args[3]
+            obj = objects[key]
+            setattr(obj, attribute_name, value)
+
+obj.save()
+
         try:
             value.__dict__[line[2]] = eval(line[3])
         except Exception:
