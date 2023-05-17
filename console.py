@@ -37,7 +37,8 @@ class HBNBCommand(cmd.Cmd):
         return True
 
     def do_EOF(self, arg):
-        """ Exits the program."""
+        """ Exits the program through (Ctrl+D)."""
+        print()
         return True
 
     def emptyline(self):
@@ -119,6 +120,26 @@ class HBNBCommand(cmd.Cmd):
         for obj in storage.all().values():
             if line[0] == type(obj).__name__:
                 print(obj)
+
+    def do_count(self, arg):
+        """
+        Usage: count <class> or <class>.count(),
+        Retrieve the number of instances of a class.
+        """
+        if not arg:
+        print("** class name missing **")
+        return
+    class_name = arg.split()[0]
+        if class_name not in self.valid_classes:
+        print("** class doesn't exist **")
+        return
+    count = 0
+    objects = models.storage.all()
+    for obj in objects.values():
+        if obj.__class__.__name__ == class_name:
+            count += 1
+    print(count)
+
 
     def do_update(self, arg):
         """
