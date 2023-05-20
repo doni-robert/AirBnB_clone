@@ -6,9 +6,9 @@ from models.base_model import BaseModel
 class City(BaseModel):
     """
     represents the City
-    
+
     Attributes:
-        name (str): the City name. 
+        name (str): the City name
     """
 
     state_id = ""
