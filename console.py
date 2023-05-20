@@ -118,7 +118,7 @@ class HBNBCommand(cmd.Cmd):
         for obj in storage.all().values():
             if line[0] == type(obj).__name__:
                 print(obj)
-    
+
     def do_count(self, arg):
         """
         Usage: count <class> or <class>.count(),
@@ -137,11 +137,11 @@ class HBNBCommand(cmd.Cmd):
             if obj.__class__.__name__ == class_name:
                 count += 1
         print(count)
-    """
+
     def do_update(self, arg):
-       
+        """
         Update an instance based on the class name, id, attribute & value
-        
+        """
         if not len(arg):
             print("** class name missing **")
             return
@@ -173,31 +173,6 @@ class HBNBCommand(cmd.Cmd):
         except Exception:
             value.__dict__[line[2]] = line[3]
             value.save()
-    """
-    def do_update(self, line):
-        """Update an instance based on the class name, id, attribute & value"""
-        className_line = line.split()
-        staticArray = ["id", "created_at", "updated_at"]
-        objects = storage.all()
-        if not line:
-            print("** class name missing **")
-        elif className_line[0] not in self.__classes:
-            print("** class doesn't exist **")
-        elif len(className_line) == 1:
-            print("** instance id missing **")
-        else:
-            instance = className_line[0] + "." + className_line[1]
-            if instance not in storage.all():
-                            print("** no instance found **")
-            elif len(className_line) < 3:
-                print("** attribute name missing **")
-            elif len(className_line) < 4:
-                print("** value missing **")
-            elif className_line[2] not in staticArray:
-                ojb = objects[instance]
-                ojb.__dict__[className_line[2]] = className_line[3]
-                ojb.updated_at = datetime.now()
-                ojb.save()
 
     def default(self, arg):
         """ Default behavior for invalid input"""
