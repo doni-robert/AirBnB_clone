@@ -25,56 +25,6 @@ class FileStorage:
     __file_path = "file.json"
     __objects = {}
 
-    def serialize_Place(self, obj):
-        """Serialize a Place object to a dictionary."""
-        data = obj.to_dict()
-        return data
-    
-    def deserialize_Place(self, data):
-        """Deserialize a dictionary to a Place object."""
-        obj = Place(**data)
-        return obj
-
-    def serialize_State(self, obj):
-        """Serialize a Place object to a dictionary."""
-        obj_dic = obj.to_dict()
-        return obj_dic
-
-    def deserialize_State(self, data):
-        """Deserialize a dictionary to a Place object."""
-        obj = State(**obj_dic)
-        return obj
-
-    def serialize_City(self, obj):
-        """Serialize a Place object to a dictionary."""
-        obj_dic = obj.to_dict()
-        return obj_dic
-
-    def deserialize_City(self, obj_dic):
-        """Deserialize a dictionary to a Place object."""
-        obj = City(**obj_dic)
-        return obj
-
-    def serialize_Amenity(self, obj):
-        """Serialize a Place object to a dictionary."""
-        obj_dic = obj.to_dict()
-        return obj_dic
-
-    def deserialize_Amenity(self, obj_dic):
-        """Deserialize a dictionary to a Place object."""
-        obj = Amenity(**obj_dic)
-        return obj
-
-    def serialize_Review(self, obj):
-        """Serialize a Place object to a dictionary."""
-        obj_dic = obj.to_dict()
-        return obj_dic
-
-    def deserialize_Review(self, obj_dic):
-        """Deserialize a dictionary to a Place object."""
-        obj = Review(**obj_dic)
-        return obj
-
     def all(self):
         """ Return the dictionary __objects """
         return self.__objects
@@ -90,18 +40,6 @@ class FileStorage:
 
         for key, value in self.__objects.items():
             obj_dic[key] = value.to_dict()
-            classname = key.split('.')[0]
-            if classname == 'Place':
-                obj_dic[key] = self.serialize_Place(value)
-            elif classname == 'State':
-                obj_dic[key] = self.serialize_State(value)
-            elif classname == 'City':
-                obj_dic[key] = self.serialize_City(value)
-            elif classname == 'Amenity':
-                obj_dic[key] = self.serialize_Amenity(value)
-            elif classname == 'Review':
-                obj_dic[key] = self.serialize_Review(value)
-            else:
         with open(self.__file_path, 'w', encoding="UTF-8") as f:
             json.dump(obj_dic, f)
 

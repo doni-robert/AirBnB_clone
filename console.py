@@ -68,15 +68,13 @@ class HBNBCommand(cmd.Cmd):
             return
         args = arg.split()
         lines = split(arg)
-        if len[0] not in self.__classes:
+        if lines[0] not in self.__classes:
             print("** class doesn't exist **")
             return
         if len(lines) < 2:
             print("** instance id missing **")
             return
-        instance_id = len[1]
-        key = "{}.{}".format(len, instance_id)
-        objs = models.storage.all()
+        objs = storage.all()
         key = lines[0] + '.' + lines[1]
         if key in objs:
             print(objs[key])
@@ -97,12 +95,11 @@ class HBNBCommand(cmd.Cmd):
         if len(lines) < 2:
             print("** instance id missing **")
             return
-        key = "{}.{}".format(class_name, instance_id) 
-        objs = model.storage.all()
+        objs = storage.all()
         key = lines[0] + '.' + lines[1]
         if key in objs:
             del objs[key]
-            models.storage.save()
+            storage.save()
         else:
             print("** no instance found **")
 
@@ -117,11 +114,11 @@ class HBNBCommand(cmd.Cmd):
         line = split(arg)
         if line[0] not in self.__classes:
             print("** class doesn't exist **")
-
+            return
         for obj in storage.all().values():
             if line[0] == type(obj).__name__:
                 print(obj)
-
+    
     def do_count(self, arg):
         """
         Usage: count <class> or <class>.count(),
@@ -135,17 +132,16 @@ class HBNBCommand(cmd.Cmd):
             print("** class doesn't exist **")
             return
         count = 0
-        objects = models.storage.all()
+        objects = storage.all()
         for obj in objects.values():
             if obj.__class__.__name__ == class_name:
                 count += 1
-    print(count)
-
-
+        print(count)
+    """
     def do_update(self, arg):
-        """
+       
         Update an instance based on the class name, id, attribute & value
-        """
+        
         if not len(arg):
             print("** class name missing **")
             return
@@ -170,20 +166,38 @@ class HBNBCommand(cmd.Cmd):
             print("** value missing **")
             return
 
-            attribute_name
-            value = objs[key]
-            obj = line line[2]
-            value = args[3]
-            obj = objects[key]
-            setattr(obj, attribute_name, value)
-
-obj.save()
+        value = objs[key]
 
         try:
             value.__dict__[line[2]] = eval(line[3])
         except Exception:
             value.__dict__[line[2]] = line[3]
             value.save()
+    """
+    def do_update(self, line):
+        """Update an instance based on the class name, id, attribute & value"""
+        className_line = line.split()
+        staticArray = ["id", "created_at", "updated_at"]
+        objects = storage.all()
+        if not line:
+            print("** class name missing **")
+        elif className_line[0] not in self.__classes:
+            print("** class doesn't exist **")
+        elif len(className_line) == 1:
+            print("** instance id missing **")
+        else:
+            instance = className_line[0] + "." + className_line[1]
+            if instance not in storage.all():
+                            print("** no instance found **")
+            elif len(className_line) < 3:
+                print("** attribute name missing **")
+            elif len(className_line) < 4:
+                print("** value missing **")
+            elif className_line[2] not in staticArray:
+                ojb = objects[instance]
+                ojb.__dict__[className_line[2]] = className_line[3]
+                ojb.updated_at = datetime.now()
+                ojb.save()
 
     def default(self, arg):
         """ Default behavior for invalid input"""
@@ -191,7 +205,8 @@ obj.save()
             "all": self.do_all,
             "show": self.do_show,
             "destroy": self.do_destroy,
-            "update": self.do_update
+            "update": self.do_update,
+            "count": self.do_count
         }
         match = re.search(r"\.", arg)
         if match:
