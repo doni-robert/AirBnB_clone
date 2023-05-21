@@ -7,6 +7,7 @@ import models
 import os
 from datetime import datetime
 from models.city import City
+import pep8
 
 
 class TestCity(unittest.TestCase):
